@@ -1,0 +1,706 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Poppins:wght@300;400&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  background-color: #fffafc;
+  color: #4a4a4a;
+  overflow-x: hidden;
+}
+
+/* Header */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 50px;
+  background-color: rgba(255, 255, 255, 0.8);
+  position: fixed;
+  width: 100%;
+  z-index: 100;
+  backdrop-filter: blur(10px);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.kitty-icon {
+  width: 90px;
+  animation: bounce 3s alternate infinite;
+}
+
+@keyframes bounce {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+
+header h1 {
+  font-family: 'Playfair Display', serif;
+  color: #ff6fae;
+}
+
+nav a {
+  margin: 0 20px;
+  text-decoration: none;
+  color: #555;
+  font-weight: 400;
+  transition: color 0.3s;
+}
+
+nav a:hover {
+  color: #ff6fae;
+}
+
+
+.about-container {
+  padding: 120px 20px 60px;
+  /* Padding atas agar tidak tertutup header fixed */
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.profile-section {
+  margin-bottom: 80px;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s ease-out;
+}
+
+/* Muncul saat di-scroll (nanti dibantu JS) */
+.profile-section.appear {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.profile-card {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+/* Membuat posisi zigzag untuk section dengan class 'reverse' */
+.profile-section.reverse .profile-card {
+  flex-direction: row-reverse;
+}
+
+.profile-image {
+  flex: 1;
+  text-align: center;
+}
+
+.profile-image img {
+  width: 250px;
+  height: 250px;
+  object-fit: cover;
+  border-radius: 50%;
+  /* Membuat foto jadi bulat sesuai sketsa */
+  border: 5px solid #ffbad6;
+  box-shadow: 0 10px 20px rgba(255, 111, 174, 0.2);
+}
+
+.profile-info {
+  flex: 1;
+}
+
+.profile-info h2 {
+  font-family: 'Playfair Display', serif;
+  color: #ff6fae;
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+}
+
+.profile-info p {
+  line-height: 1.6;
+  font-size: 1.1rem;
+}
+
+.profile-section {
+  opacity: 0;
+  transition: all 1s cubic-bezier(0.2, 1, 0.3, 1);
+  /* Transisi halus & elegan */
+}
+
+/* Profil 1: Bergeser dari kiri ke kanan */
+.profile-section:not(.reverse) {
+  transform: translateX(-50px);
+}
+
+/* Profil 2: Bergeser dari kanan ke kiri */
+.profile-section.reverse {
+  transform: translateX(50px);
+}
+
+/* --- State Setelah Scroll (Muncul) --- */
+.profile-section.appear {
+  opacity: 1;
+  transform: translateX(0) translateY(0);
+}
+
+.profile-image {
+  position: relative;
+  display: inline-block;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent; /* Menghilangkan highlight saat klik di mobile */
+}
+
+.profile-image img {
+  transition: transform 0.5s ease;
+  -webkit-user-drag: none;
+}
+
+.profile-image img:hover {
+  transform: scale(1.05) rotate(3deg);
+}
+
+.profile-image img:active {
+  transform: scale(0.95) rotate(-3deg);
+}
+
+.bubble {
+  position: absolute;
+  background: #ff6fae;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  opacity: 0;
+  transform: scale(0.5);
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  white-space: nowrap;
+  pointer-events: none; /* Supaya tidak mengganggu klik pada gambar */
+  box-shadow: 0 4px 10px rgba(255, 111, 174, 0.3);
+  z-index: 10;
+}
+
+.b-1, .b-2, .b-3, .b-3-A, .b-4 {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.5);
+}
+
+.profile-image img:active ~ .bubble {
+  opacity: 1;
+}
+
+.profile-image img:active ~ .b-1 { transform: translate(-50%, -164px) scale(1); } /* Atas */
+.profile-image img:active ~ .b-2 { transform: translate(-50%, 125px) scale(1); }  /* Bawah */
+.profile-image img:active ~ .b-3 { transform: translate(-215px, -50%) scale(1); } /* Kiri */
+.profile-image img:active ~ .b-3-A { transform: translate(-180px, -50%) scale(1); } /* Kiri Abang*/
+.profile-image img:active ~ .b-4 { transform: translate(128px, -50%) scale(1); }   /* Kanan */
+
+.bubble::after {
+  content: '';
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: #ff6fae;
+  transform: rotate(45deg);
+  z-index: -1;
+}
+
+.b-1::after { bottom: -4px; left: 45%; }
+.b-2::after { top: -4px; left: 45%; }
+.b-3::after { right: -3.8px; top: 40%; }
+.b-3-A::after { right: -3px; top: 40%; }
+.b-4::after { left: -3px; top: 40%; }
+
+/* Countdown Section - Mini & Slim Style */
+.countdown-section {
+  padding-top: 110px; /* Jarak agar tidak tertutup header */
+  display: flex;
+  justify-content: center;
+  background-color: #fffafc;
+}
+
+.countdown-card {
+  background: white;
+  padding: 10px 20px;
+  border-radius: 15px;
+  border: 1px solid #ffbad6;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(255, 111, 174, 0.1);
+  min-width: 280px;
+}
+
+.countdown-card h2 {
+  font-family: 'Playfair Display', serif;
+  color: #ff6fae;
+  margin-bottom: 8px;
+  font-size: 0.9rem; /* Ukuran teks judul kecil */
+  letter-spacing: 0.5px;
+}
+
+#countdown {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.time-box {
+  background: #ff6fae;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 8px;
+  min-width: 50px;
+}
+
+.time-box span {
+  display: block;
+  font-size: 1.1rem; /* Angka tetap jelas tapi tidak besar */
+  font-weight: bold;
+  line-height: 1;
+}
+
+.time-box p {
+  font-size: 0.55rem;
+  margin: 0;
+  opacity: 0.9;
+  text-transform: uppercase;
+}
+
+/* Animasi saat waktu habis */
+@keyframes bday-pop {
+  0% { transform: scale(0.5); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* Responsif Mobile */
+@media (max-width: 768px) {
+  .countdown-section { padding-top: 90px; }
+  .countdown-card { scale: 0.9; }
+}
+
+/* -------------------------------------------------------------------------------------------------------------------------------------------------- */
+/* header height variable */
+:root {
+  --header-height: 90px;
+}
+
+/* Hamburger button (hidden di desktop) */
+#nav-toggle {
+  display: none;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  width: 44px;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+#nav-toggle .bar {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: #555;
+  border-radius: 2px;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+
+/* Transform hamburger into X when open */
+#nav-toggle.open .bar:nth-child(1) {
+  transform: rotate(39deg) translate(4px, 4px);
+}
+
+#nav-toggle.open .bar:nth-child(2) {
+  opacity: 1;
+  transform: translateX(-10px);
+}
+
+#nav-toggle.open .bar:nth-child(3) {
+  transform: rotate(-39deg) translate(4px, -4px);
+}
+
+/* Mobile styles */
+@media (max-width: 810px) {
+  :root {
+    --header-height: 76px;
+  }
+
+  .kitty-icon {
+    width: 70px;
+  }
+
+  header {
+    padding: 12px 18px;
+  }
+
+  /* show hamburger */
+  #nav-toggle {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  /* make nav slide from right */
+  header nav {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: var(--header-height);
+    right: 0;
+    width: 240px;
+    max-width: 80%;
+    height: calc(100vh - var(--header-height));
+    background: rgba(255, 255, 255, 0.98);
+    box-shadow: -8px 0 20px rgba(0, 0, 0, 0.06);
+    transform: translateX(110%);
+    transition: transform 0.32s cubic-bezier(.2, .9, .2, 1);
+    padding-top: 10px;
+    z-index: 200;
+  }
+
+  /* nav visible when .open */
+  header nav.open {
+    transform: translateX(0);
+  }
+
+  /* nav links as touch targets */
+  header nav a {
+    display: block;
+    padding: 14px 18px;
+    margin: 0;
+    color: #4a4a4a;
+    font-size: 1.05rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.04);
+  }
+
+  header nav a:hover {
+    background: rgba(255, 111, 174, 0.06);
+    color: #ff6fae;
+  }
+
+  /* Ensure main hero/content is not hidden under fixed header */
+  .hero,
+  main {
+    padding-top: calc(var(--header-height) + 10px);
+    box-sizing: border-box;
+  }
+
+  .profile-card,
+  .profile-section.reverse .profile-card {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .profile-image img {
+    width: 200px;
+    height: 200px;
+  }
+
+  .profile-image img {
+    width: 180px !important; /* Ukuran foto lebih kecil di HP */
+    height: 180px !important;
+  }
+
+  .bubble {
+    font-size: 0.8rem;
+    padding: 4px 10px;
+  }
+
+  /* Sesuaikan jarak bubble agar tidak keluar layar HP */
+  .profile-image img:active ~ .b-1 { transform: translate(-50%, -125px) scale(1); }
+  .profile-image img:active ~ .b-2 { transform: translate(-50%, 90px) scale(1); }
+  .profile-image img:active ~ .b-3 { transform: translate(-175px, -50%) scale(1); }
+  .profile-image img:active ~ .b-3-A { transform: translate(-143px, -50%) scale(1); }
+  .profile-image img:active ~ .b-4 { transform: translate(92px, -50%) scale(1); }
+}
+
+footer {
+  padding: 30px;
+  background-color: #ffbad6;
+  color: white;
+  font-weight: 400;
+  text-align: center;
+}
+
+/* Desktop small adjustments (optional) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  header {
+    padding: 16px 30px;
+  }
+
+  nav a {
+    margin: 0 12px;
+  }
+}
+
+/* ============================================ */
+/* ENHANCED RESPONSIVE STYLES - ALL DEVICES    */
+/* ============================================ */
+
+/* Tablet Portrait */
+@media (max-width: 768px) {
+  .about-container {
+    padding: 100px 30px 50px;
+  }
+
+  .profile-section {
+    margin-bottom: 60px;
+  }
+
+  .profile-card {
+    gap: 30px;
+  }
+
+  .profile-image img {
+    width: 220px;
+    height: 220px;
+  }
+
+  .profile-info h2 {
+    font-size: 2rem;
+  }
+
+  .profile-info p {
+    font-size: 1rem;
+  }
+}
+
+/* Mobile Small */
+@media (max-width: 480px) {
+  :root {
+    --header-height: 70px;
+  }
+
+  header {
+    padding: 10px 15px;
+  }
+
+  .kitty-icon {
+    width: 60px;
+  }
+
+  header h1 {
+    font-size: 1.2rem;
+  }
+
+  .about-container {
+    padding: 90px 15px 40px;
+  }
+
+  .profile-section {
+    margin-bottom: 50px;
+  }
+
+  .profile-card,
+  .profile-section.reverse .profile-card {
+    flex-direction: column;
+    text-align: center;
+    gap: 25px;
+  }
+
+  .profile-image img {
+    width: 180px !important;
+    height: 180px !important;
+  }
+
+  .profile-info h2 {
+    font-size: 1.8rem;
+  }
+
+  .profile-info p {
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
+  .bubble {
+    font-size: 0.75rem;
+    padding: 4px 10px;
+  }
+
+  /* Adjust bubble positions for mobile */
+  .profile-image img:active ~ .b-1 { transform: translate(-50%, -125px) scale(1); }
+  .profile-image img:active ~ .b-2 { transform: translate(-50%, 90px) scale(1); }
+  .profile-image img:active ~ .b-3 { transform: translate(-175px, -50%) scale(1); }
+  .profile-image img:active ~ .b-3-A { transform: translate(-143px, -50%) scale(1); }
+  .profile-image img:active ~ .b-4 { transform: translate(92px, -50%) scale(1); }
+
+  .countdown-section {
+    padding-top: 80px;
+  }
+
+  .countdown-card {
+    scale: 0.85;
+    min-width: 250px;
+  }
+
+  footer {
+    padding: 25px 15px;
+    font-size: 0.9rem;
+  }
+
+  header nav {
+    width: 200px;
+  }
+}
+
+/* Extra Small Mobile */
+@media (max-width: 360px) {
+  .kitty-icon {
+    width: 50px;
+  }
+
+  header h1 {
+    font-size: 1rem;
+  }
+
+  .about-container {
+    padding: 85px 12px 35px;
+  }
+
+  .profile-image img {
+    width: 150px !important;
+    height: 150px !important;
+  }
+
+  .profile-info h2 {
+    font-size: 1.5rem;
+  }
+
+  .profile-info p {
+    font-size: 0.85rem;
+  }
+
+  .bubble {
+    font-size: 0.7rem;
+    padding: 3px 8px;
+  }
+
+  /* Adjust bubble position for extra small screens */
+  .profile-image img:active ~ .b-1 { transform: translate(-50%, -100px) scale(1); }
+  .profile-image img:active ~ .b-2 { transform: translate(-50%, 70px) scale(1); }
+  .profile-image img:active ~ .b-3 { transform: translate(-150px, -50%) scale(1); }
+  .profile-image img:active ~ .b-3-A { transform: translate(-120px, -50%) scale(1); }
+  .profile-image img:active ~ .b-4 { transform: translate(75px, -50%) scale(1); }
+
+  .countdown-card {
+    scale: 0.75;
+  }
+}
+
+/* Landscape Mobile */
+@media (max-height: 500px) and (orientation: landscape) {
+  header {
+    padding: 8px 15px;
+  }
+
+  .kitty-icon {
+    width: 50px;
+  }
+
+  .about-container {
+    padding: 80px 20px 40px;
+  }
+
+  .profile-card {
+    flex-direction: row !important;
+    gap: 20px;
+  }
+
+  .profile-image img {
+    width: 150px;
+    height: 150px;
+  }
+
+  .profile-info h2 {
+    font-size: 1.5rem;
+  }
+
+  .profile-info p {
+    font-size: 0.85rem;
+  }
+}
+
+/* Large Desktop */
+@media (min-width: 1440px) {
+  header {
+    padding: 25px 80px;
+  }
+
+  .about-container {
+    max-width: 1200px;
+    padding: 140px 40px 80px;
+  }
+
+  .profile-card {
+    gap: 50px;
+  }
+
+  .profile-image img {
+    width: 300px;
+    height: 300px;
+  }
+
+  .profile-info h2 {
+    font-size: 3rem;
+  }
+
+  .profile-info p {
+    font-size: 1.2rem;
+    line-height: 1.8;
+  }
+
+  .countdown-card {
+    min-width: 320px;
+    scale: 1.1;
+  }
+}
+
+/* Tablet Landscape */
+@media (min-width: 1025px) and (max-width: 1280px) {
+  .about-container {
+    max-width: 900px;
+  }
+
+  .profile-image img {
+    width: 230px;
+    height: 230px;
+  }
+
+  .profile-info h2 {
+    font-size: 2.2rem;
+  }
+}
+
+/* Very Large Screens */
+@media (min-width: 1920px) {
+  .about-container {
+    max-width: 1400px;
+  }
+
+  .profile-card {
+    gap: 60px;
+  }
+
+  .profile-image img {
+    width: 350px;
+    height: 350px;
+  }
+
+  .profile-info h2 {
+    font-size: 3.5rem;
+  }
+
+  .profile-info p {
+    font-size: 1.3rem;
+  }
+}
