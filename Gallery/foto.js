@@ -29,3 +29,37 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 });
+
+// Foto-Foto olaa
+        const galleryContainer = document.getElementById('Gallery-Foto');
+        const photos = [
+            {tanggal: "10 Agustus 2025", foto: "Gallery\foto-foto\foto1.jpeg", alternate: "", judul: "asrhjfksugfsjf",deskripsi: ""},
+            {tanggal: "", foto: ".jpg", alternate: "", judul: "",deskripsi: ""},
+            {tanggal: "", foto: ".jpg", alternate: "", judul: "",deskripsi: ""},
+            {tanggal: "", foto: ".jpg", alternate: "", judul: "",deskripsi: ""},
+            {tanggal: "", foto: ".jpg", alternate: "", judul: "",deskripsi: ""},
+            {tanggal: "", foto: ".jpg", alternate: "", judul: "",deskripsi: ""},
+            {tanggal: "", foto: ".jpg", alternate: "", judul: "",deskripsi: ""},
+            {tanggal: "", foto: ".jpg", alternate: "", judul: "",deskripsi: ""},
+            {tanggal: "", foto: ".jpg", alternate: "", judul: "",deskripsi: ""},
+            {tanggal: "", foto: ".jpg", alternate: "", judul: "",deskripsi: ""},
+            {tanggal: "", foto: ".jpg", alternate: "", judul: "",deskripsi: ""},
+          ];
+          
+          photos.forEach((data, i) => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.style.animationDelay = `${(i * 0.1) + 0.3}s`;
+            card.innerHTML = `
+                <div class="image-wrapper">
+                  <p>${data.tanggal}</p>
+                  <img src="${data.foto}" alt="${data.alternate}">
+                </div>
+                <details class="caption-box">
+                  <summary><h3>${data.judul}</h3></summary>
+                  <p>${data.deskripsi}</p>
+                </details>
+              </div>
+            `;
+            galleryContainer.appendChild(card);
+        });
