@@ -106,6 +106,7 @@ nav a:hover {
 .image-wrapper {
   width: 100%;
   margin-bottom: 15px;
+  overflow: hidden;
 }
 
 .image-wrapper p {
@@ -147,6 +148,14 @@ nav a:hover {
 .caption-box h3 {
   font-size: 1.1rem;
   color: var(--pink-primary);
+}
+
+footer {
+  padding: 30px;
+  background-color: #ea7070;
+  color: white;
+  font-weight: 400;
+  text-align: center;
 }
 /* _________________________________________________________________________________________________________________________ */
 /* --- Responsive --- */
